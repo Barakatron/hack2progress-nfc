@@ -127,6 +127,36 @@ angular.module('starter.controllers', ['nfcFilters'])
 
 })
 
+.controller("QRController", function($scope, $cordovaBarcodeScanner) {
+    $scope.scanBarcode = function() {
+        $cordovaBarcodeScanner.scan().then(function(imageData) {
+          alert(imageData.text);
+            /*if(imageData.format == "QR_CODE"){
+              alert(imageData.text);
+            }
+            else{
+              alert(imageData.text);
+              console.log("Barcode Format -> " + imageData.format);
+              console.log("Cancelled -> " + imageData.cancelled);
+            }*/
+        }, function(error) {
+            alert(error);
+            console.log("An error happened -> " + error);
+        });
+    };
+ /*
+    $scope.scanBarcode = function() {
+        $cordovaBarcodeScanner.scan().then(function(imageData) {
+            alert("Texto:" + JSON.stringify(imageData));//.text);
+            console.log("Barcode Format -> " + imageData.format);
+            console.log("Cancelled -> " + imageData.cancelled);
+        }, function(error) {
+            console.log("An error happened -> " + error);
+        });
+    };
+ */
+})
+
 .controller('RecordAudio', function($scope, $cordovaMedia) {
 
   var src = "myrecording.mp3";

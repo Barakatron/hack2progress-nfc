@@ -78,7 +78,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       }
     }
   })
-
+  .state('app.qr-scanner', {
+    url: '/qr-scanner',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/qr-scanner.html',
+        controller: 'QRController'
+      }
+    }
+  })
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {

@@ -40,4 +40,5 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <plugin name="cordova-plugin-media" spec="~1.0.1" />
+    <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git" />
 </widget>
