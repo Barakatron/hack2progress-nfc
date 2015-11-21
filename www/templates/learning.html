@@ -46,7 +46,7 @@
                     <i class="icon ion-stop"></i>
                     Parar grabación
                 </button>
-                <button class="button button-block button-positive" ng-click="goto(5)" ng-show="recording">
+                <button class="button button-block button-positive" ng-click="goto(5)" ng-show="!recording">
                     Saltar paso
                 </button>
             </div>
@@ -55,7 +55,7 @@
         <!-- Paso 5: Nombra el pictograma -->
         <div class="list card"  ng-if="currentStep == 5">
             <label class="item item-input">
-                <input type="text" ng-model="newPictogram.text" placeholder="Nombra tu dibujo"></input>
+                <input type="text" ng-model="newPictogram.text" placeholder="Nombra tu dibujo" required></input>
             </label>
 
             <div class="item item-image">

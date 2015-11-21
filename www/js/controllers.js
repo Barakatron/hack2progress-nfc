@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['nfcFilters'])
 
-    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout, $cordovaBarcodeScanner) {
+    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout, $cordovaBarcodeScanner, $http, $cordovaFileTransfer, $cordovaCamera) {
 
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['nfcFilters'])
             if($scope.loginData.password == "123456789"){
                 $ionicHistory.nextViewOptions({
                     disableBack: true
-                });                
+                });      
                 $state.go('app.learning');
                 $scope.modal.hide();
             }
@@ -43,12 +43,71 @@ angular.module('starter.controllers', ['nfcFilters'])
 
         $scope.scanQR = function () {
             $cordovaBarcodeScanner.scan().then(function(imageData) {
-                alert(imageData.text);
+                if (!imageData.text) {
+                    return;
+                }
+                var picto = angular.fromJson(imageData.text);
+                //console.log(picto);
+                $state.go('app.pictogram', {id : picto.id});
             }, function(error) {
                 alert(error);
                 console.log("An error happened -> " + error);
             });
         }
+
+        $scope.photo = function () {
+        // Camera Options
+          var options = {
+            quality          : 75,
+            destinationType  : Camera.DestinationType.FILE_URI,
+            sourceType       : Camera.PictureSourceType.CAMERA,
+            allowEdit        : false,
+            encodingType     : Camera.EncodingType.JPEG,
+            popoverOptions   : CameraPopoverOptions,
+            targetWidth      : 500,
+            targetHeight     : 500,
+            saveToPhotoAlbum : false
+          };
+
+          // Start taking a photo
+          $cordovaCamera.getPicture(options)
+          // Alanyse photo
+          .then(function(imageData) {
+            var options = {
+              fileKey     : 'file',
+              httpMethod  : 'POST',
+              params      : {
+                lang : 'spa',
+                noempty : false,
+                outform : 'json',
+                uc : 'True'
+              },
+              chunkedMode : false,        
+              headers     : {
+                'X-Mashape-Key' : 'AEsBDUsxEdmsh2GT9TkF2iISFMMhp1RlNZ6jsnZAPZJg1GYaRi'
+              }
+            };
+            return $cordovaFileTransfer.upload('https://semamediadata-image-ocr-v1.p.mashape.com/', imageData, options)
+            .then(function(data) {
+              // TODO check response errors
+              var response = angular.fromJson(data.response);
+              console.log(response);
+              var text = response.frames[0].results[0].text;
+               TTS
+                .speak({
+                    text: text,
+                    locale: 'es-ES'
+                }, function () {
+                    console.log('success');
+                }, function (reason) {
+                    console.log(reason);
+                });
+            });
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+        };
     })
 
     .controller('NFCController', function ($scope, $cordovaBarcodeScanner) {
@@ -56,23 +115,35 @@ angular.module('starter.controllers', ['nfcFilters'])
     .controller('PictogramController', function($scope, $stateParams, Pictogram) {
         $scope.pictogram = Pictogram.find($stateParams.id);
 
-        console.log($stateParams.id);
-        console.log($scope.pictogram);
+        //console.log($stateParams.id);
+        //console.log($scope.pictogram);
 
         $scope.play = function (audio) {
-            var src = '/android_asset/www/' + audio;
-            var mediaRec = new Media(src,
-                // success callback
-                function() {
-                    console.log("recordAudio():Audio Success");
-                },
-                // error callback
-                function(err) {
-                  //alert(JSON.stringify(err));
-                  console.log("recordAudio():Audio Error: "+ err.code);
-                  console.log(JSON.stringify(err, null, 4));
+            if (!audio) {
+                TTS
+                .speak({
+                    text: $scope.pictogram.text,
+                    locale: 'es-ES'
+                }, function () {
+                    console.log('success');
+                }, function (reason) {
+                    console.log(reason);
                 });
-            mediaRec.play();
+            } else {
+                var src = '/android_asset/www/' + audio;
+                var mediaRec = new Media(src,
+                    // success callback
+                    function() {
+                        console.log("recordAudio():Audio Success");
+                    },
+                    // error callback
+                    function(err) {
+                      //alert(JSON.stringify(err));
+                      console.log("recordAudio():Audio Error: "+ err.code);
+                      console.log(JSON.stringify(err, null, 4));
+                    });
+                mediaRec.play();
+            }
         };
 
         $scope.replay = function () {
@@ -107,7 +178,8 @@ angular.module('starter.controllers', ['nfcFilters'])
         };
 
         $scope.playRecord = function() {
-            var mediaRec = new Media(src, // MAGIC
+            console.log(src);
+            var mediaRec = new Media('file:///sdcard/' + src, // MAGIC
                 // success callback
                 function() {
                     alert("recordAudio():Audio Success");
@@ -128,7 +200,7 @@ angular.module('starter.controllers', ['nfcFilters'])
             $state.go('app.pictogram', {id : id})
         };
     })
-    .controller('Learning', function($rootScope, $scope, $cordovaMedia, $ionicPopup, $cordovaCamera, $filter) {
+    .controller('Learning', function($rootScope, $scope, $state, $cordovaMedia, $ionicPopup, $cordovaCamera, $filter, Pictogram) {
         $rootScope.learning = true;
 
         $scope.currentStep = 1;
@@ -219,7 +291,7 @@ angular.module('starter.controllers', ['nfcFilters'])
         };
 
         $scope.ok = function () {
-            console.log($scope.newPictogram);
+            /*console.log($scope.newPictogram);
             TTS
             .speak({
                 text: $scope.newPictogram.text,
@@ -228,7 +300,9 @@ angular.module('starter.controllers', ['nfcFilters'])
                 console.log('success');
             }, function (reason) {
                 console.log(reason);
-            });
+            });*/
+            Pictogram.add($scope.newPictogram);
+            $state.go('app.browse')
         };
 
         $scope.$on("$destroy", function() {

@@ -28,7 +28,8 @@
       "id": "phonegap-plugin-barcodescanner"
     },
     "org.apache.cordova.camera",
-    "cordova-plugin-tts"
+    "cordova-plugin-tts",
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "android"

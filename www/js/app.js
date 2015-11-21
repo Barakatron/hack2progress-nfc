@@ -32,6 +32,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }, function (reason) {
                 alert("Error adding NFC Listener " + reason);
             });
+
+            /*function onFileSystemSuccess(fileSystem) {
+                fileSystem.root.getDirectory("sdcard", {create: false, exclusive: false}, onGetDirectoryWin, onGetDirectoryFail);
+            }
+
+            function fail(evt) {
+                console.log(evt.target.error.code);
+            }
+
+            var onGetDirectoryWin = function(parent) {
+                console.log(parent);
+            }
+            var onGetDirectoryFail = function() {
+                console.log("error getting dir")
+            }
+
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);*/
         });
     })
 
