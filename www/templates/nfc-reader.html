@@ -1,26 +1,30 @@
-<ion-view view-title="NFC Reader">
+<ion-view view-title="TLOCUENTO">
   <ion-content>
-  <div ng-if="!tag.id">
-            <div class="card">
-                <div class="item item-text-wrap center">
-                    Scan a tag to being.
-                </div>
-            </div>
+    <!-- Se muestra cuando no hay nada escaneado -->
+    <div class="card" ng-if="!tag.id">
+      <div class="item item-divider">
+        Escanea un dibujo
+      </div>
+      <div class="item item-text-wrap">
+        Imagen mostrando como escanear.
+      </div>
+    </div>
+    <!-- Mostrar pictograma escanedo -->
+    <div class="list card" ng-if="tag.id"  
+    ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
+
+        <div class="item">
+            <h2>{{pictogram.text}}</h2>
         </div>
-        <!--<div ng-if="tag.id">
-            <div class="card">
-                <div class="item item-text-wrap">
-                    <dl>
-                        <dt>Tag Id</dt>
-                        <dd>{{ tag.id | bytesToHexString }}</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>-->
-        <div class="list" ng-if="tag.id" >
-            <div class="item" ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
-                <img style="width:150px;height:auto;" ng-src="{{pictogram.img}}"/>
-            </div>
+
+        <div class="item item-image">
+          <img ng-src="{{pictogram.img}}">
         </div>
+
+        <button class="item item-icon-left balanced">
+            <i class="icon ion-music-note"></i>
+            Otra vez
+        </button>
+    </div>
   </ion-content>
 </ion-view>

@@ -55,30 +55,35 @@ angular.module('starter.controllers', ['nfcFilters'])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('NFCController', function ($scope, nfcService) {
+.controller('NFCController', function ($scope) {
 
   $scope.pictograms = [
     {
       name : 'narrar_mi_cuento',
+      text : 'Narrar mi cuento',
       id   : '042bdc4aa34880',
       img  : 'img/IMG_0466.JPG'
     },
     {
       name : 'llamar_madre_padre',
+      text : 'Llamar a mi padre o a mi madre',
       id   : '042cdc4aa34880',
       img  : 'img/IMG_0465.JPG'
     },
     {
       name : 'quiero_comer',
+      text : 'Quiero comer',
       id   : '042adc4aa34880',
       img  : 'img/IMG_0464.JPG'
     }
   ]
 
-  $scope.tag = nfcService.tag;
+  $scope.tag = {id : '042bdc4aa34880'};
+
+  /*$scope.tag = nfcService.tag;
   $scope.clear = function() {
     nfcService.clearTag();
-  };
+  };*/
 
 })
 
