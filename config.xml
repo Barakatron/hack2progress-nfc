@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.lasttest770365" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>TLOCUENTO</name>
-    <description>
+  <name>Tlocuento</name>
+  <description>
         QR and NFC reader for disabled people
     </description>
-    <author email="jonan.bsg@gmail.com" href="">
+  <author email="jonan.bsg@gmail.com" href="">
       Barakatron
     </author>
     <content src="index.html" />
