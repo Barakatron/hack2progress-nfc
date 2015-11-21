@@ -64,6 +64,49 @@ angular.module('starter.controllers', ['nfcFilters'])
 
 })
 
+.controller('RecordAudio', function($scope, $cordovaMedia) {
+
+  var src = "myrecording.mp3";
+  var mediaRec = new Media(src,
+    // success callback
+    function() {
+        alert("recordAudio():Audio Success");
+    },
+    // error callback
+    function(err) {
+        alert(JSON.stringify(err));
+        console.log("recordAudio():Audio Error: "+ err.code);
+  });
+
+  $scope.startRecord = function() {
+    alert(JSON.stringify(mediaRec));
+    mediaRec.startRecord();
+  };
+  $scope.stopRecord = function() {
+    alert(JSON.stringify(mediaRec));
+    mediaRec.stopRecord();
+  };
+  $scope.playRecord = function() {
+    var mediaRec = new Media(src, // Hay que llamarlo otra vez, por qué? POR QUE LA LIBRERIA ES MÁGICA y sin hacerlo no reproduce el archivo
+      // success callback
+      function() {
+          alert("recordAudio():Audio Success");
+      },
+      // error callback
+      function(err) {
+          alert(JSON.stringify(err));
+          console.log("recordAudio():Audio Error: "+ err.code);
+    });
+    alert(JSON.stringify(mediaRec));
+    mediaRec.play();
+  };
+
+  function mediaError(e) {
+    alert('Media Error');
+    alert(JSON.stringify(e));
+  }
+})
+
 .factory('nfcService', function ($rootScope, $ionicPlatform) {
 
     var tag = {};

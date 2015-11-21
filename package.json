@@ -21,7 +21,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "com.chariotsolutions.nfc.plugin"
+    "com.chariotsolutions.nfc.plugin",
+    "org.apache.cordova.media"
   ],
   "cordovaPlatforms": [
     "android"
