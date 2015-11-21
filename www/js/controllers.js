@@ -128,10 +128,11 @@ angular.module('starter.controllers', ['nfcFilters'])
             $state.go('app.pictogram', {id : id})
         };
     })
-    .controller('Learning', function($rootScope, $scope, $cordovaMedia, $ionicPopup, $cordovaCamera) {
+    .controller('Learning', function($rootScope, $scope, $cordovaMedia, $ionicPopup, $cordovaCamera, $filter) {
         $rootScope.learning = true;
 
-        $scope.currentStep = 1;        
+        $scope.currentStep = 1;
+        $scope.newPictogram = {}
 
         $scope.goto = function (paso) {
             $scope.currentStep = paso;
@@ -139,18 +140,11 @@ angular.module('starter.controllers', ['nfcFilters'])
 
         nfc.addNdefListener(function (nfcEvent) {
             if ($scope.currentStep == 2) {
-                console.log('va');
+                var tag = nfcEvent.tag;
+                tag.id = $filter('bytesToHexString')(tag.id);
+                $scope.newPictogram.id = tag.id;
                 $scope.showConfirm();
             }
-            //console.log(JSON.stringify(nfcEvent.tag, null, 4));
-            /*var tag = nfcEvent.tag;
-            tag.id = $filter('bytesToHexString')(tag.id);
-            //console.log(tag.id);
-            $ionicHistory.nextViewOptions({
-              disableBack : true
-            });
-
-            $state.go('app.pictogram', {id : tag.id});*/
         }, function () {
             console.log("Listening for NDEF Tags.");
         }, function (reason) {
@@ -159,7 +153,7 @@ angular.module('starter.controllers', ['nfcFilters'])
 
         // A confirm dialog
         $scope.showConfirm = function() {
-           var confirmPopup = $ionicPopup.confirm({
+           var confirmPopup = $ionicPopup.alert({
              title    : 'Muy bien!',
              template : 'El pictograma se ha escaneado correctamente'
            });
@@ -175,9 +169,65 @@ angular.module('starter.controllers', ['nfcFilters'])
             };
 
             $cordovaCamera.getPicture(options).then(function(imageURI) {
-              console.log((imageURI);
+              console.log(imageURI);
+              $scope.newPictogram.img = imageURI;
+              $scope.goto(4);
             }, function(err) {
               // error
+            });
+        };
+
+        var src = Math.floor(Date.now() / 1000) + ".mp3";
+        var mediaRec = new Media(src,
+            // success callback
+            function() {
+                console.log("recordAudio():Audio Success");
+            },
+            // error callback
+            function(err) {
+                alert(JSON.stringify(err));
+                console.log("recordAudio():Audio Error: "+ err.code);
+        });
+
+        $scope.startRecord = function() {
+            $scope.recording = true;
+            mediaRec.startRecord();
+            console.log(JSON.stringify(mediaRec));
+        };
+
+        $scope.stopRecord = function() {
+            $scope.recording = true;
+            mediaRec.stopRecord();
+            console.log(JSON.stringify(mediaRec));
+            $scope.newPictogram.audio = src;
+            $scope.goto(5);
+        };
+
+         $scope.play = function() {
+            var mediaRec = new Media(src, // MAGIC
+                // success callback
+                function() {
+                    console.log("recordAudio():Audio Success");
+                },
+                // error callback
+                function(err) {
+                    console.log(JSON.stringify(err));
+                console.log("recordAudio():Audio Error: "+ err.code);
+            });
+            //alert(JSON.stringify(mediaRec));
+            mediaRec.play();
+        };
+
+        $scope.ok = function () {
+            console.log($scope.newPictogram);
+            TTS
+            .speak({
+                text: $scope.newPictogram.text,
+                locale: 'es-ES'
+            }, function () {
+                console.log('success');
+            }, function (reason) {
+                console.log(reason);
             });
         };
 

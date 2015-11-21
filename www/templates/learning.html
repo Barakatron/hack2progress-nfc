@@ -2,8 +2,8 @@
     <ion-content>
         <!-- Primer paso: Colocar el NFC -->
         <div class="card" ng-if="currentStep == 1">
-            <div class="item item-wrap">
-                <h1>Pega el NFC debajo el pictograma</h1>
+            <div class="item item-text-wrap">
+                <h2>Pega el NFC debajo el pictograma</h2>
             </div>
 
             <div class="item item-image">
@@ -16,8 +16,8 @@
 
         <!--Paso dos: Acerca el movil al pictograma -->
         <div class="card" ng-if="currentStep == 2">
-            <div class="item item-divider">
-                <h1>Acerca el móvil al pictograma</h1>
+            <div class="item item-text-wrap">
+                <h2>Acerca el móvil al pictograma</h2>
             </div>
 
             <div class="item item-image">
@@ -26,17 +26,50 @@
         </div>
 
         <!-- Paso 3: fotografía el pictograma -->
-        <div class="list card">
+        <div class="list card"  ng-if="currentStep == 3">
             <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="photo()">Sácale una foto</button>
+                <button class="button button-block button-positive" ng-click="photo()">
+                    <i class="icon ion-camera"></i>
+                    Sácale una foto
+                </button>
             </div>
         </div>
 
         <!-- Paso 4: graba un sonido -->
-        <div class="list card">
+        <div class="list card"  ng-if="currentStep == 4">
             <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="record()">Grábate</button>
+                <button class="button button-block button-positive" ng-click="startRecord()" ng-show="!recording">
+                    <i class="icon ion-record"></i>
+                    Grábate
+                </button>
+                <button class="button button-block button-positive" ng-click="stopRecord()" ng-show="recording">
+                    <i class="icon ion-stop"></i>
+                    Parar grabación
+                </button>
+                <button class="button button-block button-positive" ng-click="goto(5)" ng-show="recording">
+                    Saltar paso
+                </button>
             </div>
+        </div>
+
+        <!-- Paso 5: Nombra el pictograma -->
+        <div class="list card"  ng-if="currentStep == 5">
+            <label class="item item-input">
+                <input type="text" ng-model="newPictogram.text" placeholder="Nombra tu dibujo"></input>
+            </label>
+
+            <div class="item item-image">
+                <img ng-src="{{newPictogram.img}}">
+            </div>
+
+            <button class="item item-icon-left assertive" ng-click="play()">
+                <i class="icon ion-music-note"></i>
+                Start listening
+            </button>
+            <button class="button button-block button-positive" ng-click="ok()">
+                <i class="icon ion-checkmark-round"></i>
+                Todo correcto
+            </button>
         </div>
 
         <!-- Mostrar pictograma escanedo -->
