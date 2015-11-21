@@ -1,7 +1,7 @@
 {
-  "name": "lasttest",
-  "version": "1.1.1",
-  "description": "lastTest: An Ionic project",
+  "name": "TLOCUENTO",
+  "version": "0.0.1",
+  "description": "",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
