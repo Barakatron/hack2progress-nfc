@@ -1,6 +1,10 @@
 angular.module('starter.controllers', ['nfcFilters'])
 
+<<<<<<< HEAD
     .controller('AppCtrl', function($scope, $ionicModal, $timeout, $cordovaBarcodeScanner) {
+=======
+    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout) {
+>>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
 
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
@@ -31,13 +35,14 @@ angular.module('starter.controllers', ['nfcFilters'])
 
         // Perform the login action when the user submits the login form
         $scope.doLogin = function() {
-            console.log('Doing login', $scope.loginData);
-
-            // Simulate a login delay. Remove this and replace with your login
-            // code if using a login system
-            $timeout(function() {
-                $scope.closeLogin();
-            }, 1000);
+            console.log('Doing login', $scope.loginData.password);
+            if($scope.loginData.password == "123456789"){
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });                
+                $state.go('app.learning');
+                $scope.modal.hide();
+            }
         };
 
         $scope.scanQR = function () {
@@ -78,7 +83,18 @@ angular.module('starter.controllers', ['nfcFilters'])
             $scope.play($scope.pictogram.audio);
         };
 
+<<<<<<< HEAD
         $scope.play($scope.pictogram.audio);
+=======
+        $scope.scanBarcode = function() {
+            $cordovaBarcodeScanner.scan().then(function(imageData) {
+                alert(imageData.text);
+            }, function(error) {
+                console.log("An error happened -> " + error);
+            });
+        };        
+
+>>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
     })
 
     .controller('RecordAudio', function($scope, $cordovaMedia) {
@@ -120,10 +136,16 @@ angular.module('starter.controllers', ['nfcFilters'])
             mediaRec.play();
         };
     })
+<<<<<<< HEAD
     .controller('Browse', function ($scope, $state, Pictogram) {
         $scope.pictograms = Pictogram.list();
 
         $scope.show = function (id) {
             $state.go('app.pictogram', {id : id})
         };
+=======
+
+    .controller('Learning', function($scope, $cordovaMedia) {
+
+>>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
     });

@@ -49,6 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
+<<<<<<< HEAD
         .state('app.browse', {
             url: '/browse',
             views: {
@@ -68,6 +69,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             }
         })
+=======
+        .state('app.learning', {
+            url: '/learning',
+            views: {
+                'menuContent': {
+                templateUrl: 'templates/learning.html',
+                    controller: 'Learning'
+                }
+            }
+        })  
+>>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
 
         .state('app.record-audio', {
             url: '/record-audio',
@@ -78,6 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             }
         });
+
 
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/nfc-reader');
