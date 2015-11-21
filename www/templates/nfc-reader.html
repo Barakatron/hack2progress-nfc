@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="tag.id">
+        <!--<div ng-if="tag.id">
             <div class="card">
                 <div class="item item-text-wrap">
                     <dl>
@@ -15,6 +15,11 @@
                         <dd>{{ tag.id | bytesToHexString }}</dd>
                     </dl>
                 </div>
+            </div>
+        </div>-->
+        <div class="list" ng-if="tag.id" >
+            <div class="item" ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
+                <img style="width:150px;height:auto;" ng-src="{{pictogram.img}}"/>
             </div>
         </div>
   </ion-content>

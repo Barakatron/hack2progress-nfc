@@ -57,14 +57,32 @@ angular.module('starter.controllers', ['nfcFilters'])
 
 .controller('NFCController', function ($scope, nfcService) {
 
-    $scope.tag = nfcService.tag;
-    $scope.clear = function() {
-        nfcService.clearTag();
-    };
+  $scope.pictograms = [
+    {
+      name : 'narrar_mi_cuento',
+      id   : '042bdc4aa34880',
+      img  : 'img/IMG_0466.JPG'
+    },
+    {
+      name : 'llamar_madre_padre',
+      id   : '042cdc4aa34880',
+      img  : 'img/IMG_0465.JPG'
+    },
+    {
+      name : 'quiero_comer',
+      id   : '042adc4aa34880',
+      img  : 'img/IMG_0464.JPG'
+    }
+  ]
+
+  $scope.tag = nfcService.tag;
+  $scope.clear = function() {
+    nfcService.clearTag();
+  };
 
 })
 
-.factory('nfcService', function ($rootScope, $ionicPlatform) {
+.factory('nfcService', function ($rootScope, $ionicPlatform, $filter) {
 
     var tag = {};
 
@@ -73,6 +91,8 @@ angular.module('starter.controllers', ['nfcFilters'])
             console.log(JSON.stringify(nfcEvent.tag, null, 4));
             $rootScope.$apply(function(){
                 angular.copy(nfcEvent.tag, tag);
+                tag.id = $filter('bytesToHexString')(tag.id);
+                console.log(tag.id);
                 // if necessary $state.go('some-route')
             });
         }, function () {
