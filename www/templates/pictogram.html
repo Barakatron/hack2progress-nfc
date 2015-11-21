@@ -1,0 +1,19 @@
+<ion-view view-title="TLOCUENTO">
+    <ion-content>
+        <!-- Mostrar pictograma escanedo -->
+        <div class="list card">
+                <div class="item">
+                    <h1>{{pictogram.text}}</h1>
+                </div>
+
+                <div class="item item-image">
+                    <img ng-src="{{pictogram.img}}">
+                </div>
+
+            <button class="item item-icon-left balanced" ng-click="replay()">
+                <i class="icon ion-music-note"></i>
+                Otra vez
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

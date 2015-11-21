@@ -1,6 +1,6 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-    .run(function($ionicPlatform) {
+    .run(function($ionicPlatform, $filter, $state, $ionicHistory) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -12,6 +12,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
             // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+
+            nfc.addNdefListener(function (nfcEvent) {
+                //console.log(JSON.stringify(nfcEvent.tag, null, 4));
+                var tag = nfcEvent.tag;
+                tag.id = $filter('bytesToHexString')(tag.id);
+                //console.log(tag.id);
+                $ionicHistory.nextViewOptions({
+                  disableBack : true
+                });
+
+                $state.go('app.pictogram', {id : tag.id});
+            }, function () {
+                console.log("Listening for NDEF Tags.");
+            }, function (reason) {
+                alert("Error adding NFC Listener " + reason);
+            });
         });
     })
 
@@ -29,6 +45,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
                 'menuContent': {
                 templateUrl: 'templates/nfc-reader.html',
                     controller: 'NFCController'
+                }
+            }
+        })
+
+        .state('app.browse', {
+            url: '/browse',
+            views: {
+                'menuContent': {
+                templateUrl: 'templates/browse.html',
+                    controller: 'Browse'
+                }
+            }
+        })
+
+        .state('app.pictogram', {
+            url: '/pictogram/:id',
+            views: {
+                'menuContent': {
+                templateUrl: 'templates/pictogram.html',
+                    controller: 'PictogramController'
                 }
             }
         })

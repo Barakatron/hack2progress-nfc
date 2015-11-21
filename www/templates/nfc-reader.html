@@ -3,16 +3,11 @@
         <!-- Se muestra cuando no hay nada escaneado -->
         <div class="card" ng-if="!tag.id">
             <div class="item item-divider">
-                <h1>Escanea un pictograma</h1>
+                <h1>Escanea un dibujo</h1>
             </div>
 
             <div class="item item-image">
                 <img src="img/escanear-color.svg">
-            </div>
-        </div>
-        <div class="card" ng-if="!tag.id">
-            <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="scanBarcode()">ESCANEA UN CODIGO QR</button>
             </div>
         </div>
         <!-- Mostrar pictograma escanedo -->
@@ -30,6 +25,14 @@
                 <i class="icon ion-music-note"></i>
                 Otra vez
             </button>
+        </div>
+        <div class="card">
+            <div class="item item-divider">
+                <button class="button button-block button-positive" ng-click="scanBarcode()">
+                    <i class="icon ion-qr-scanner"></i>
+                    ESCANEA UN CÓDIGO QR
+                </button>
+            </div>
         </div>
   </ion-content>
 </ion-view>

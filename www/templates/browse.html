@@ -1,0 +1,12 @@
+<ion-view view-title="TLOCUENTO">
+    <ion-content>
+    	<div class="row" ng-repeat="pictogram in pictograms" ng-if="$index % 2 === 0">
+        <div class="col col-50" ng-if="$index < pictograms.length" ng-click="show(pictograms[$index].id)">
+            <img ng-src="{{pictograms[$index].img}}" width="100%" />
+        </div>
+        <div class="col col-50" ng-if="$index + 1 < pictograms.length" ng-click="show(pictograms[$index].id)">
+            <img ng-src="{{pictograms[$index + 1].img}}" width="100%" />
+        </div>
+    </div>
+    </ion-content>
+</ion-view>

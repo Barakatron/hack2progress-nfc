@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['nfcFilters'])
 
-    .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+    .controller('AppCtrl', function($scope, $ionicModal, $timeout, $cordovaBarcodeScanner) {
 
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
@@ -39,57 +39,24 @@ angular.module('starter.controllers', ['nfcFilters'])
                 $scope.closeLogin();
             }, 1000);
         };
+
+        $scope.scanQR = function () {
+            $cordovaBarcodeScanner.scan().then(function(imageData) {
+                alert(imageData.text);
+            }, function(error) {
+                alert(error);
+                console.log("An error happened -> " + error);
+            });
+        }
     })
 
-    .controller('NFCController', function ($scope, $ionicPlatform, $filter, $cordovaBarcodeScanner) {
+    .controller('NFCController', function ($scope, $cordovaBarcodeScanner) {
+    })
+    .controller('PictogramController', function($scope, $stateParams, Pictogram) {
+        $scope.pictogram = Pictogram.find($stateParams.id);
 
-        $scope.pictograms = [
-            {
-                name : 'narrar_mi_cuento',
-                text : 'Narrar mi cuento',
-                id   : '042bdc4aa34880',
-                img  : 'img/IMG_0466.JPG',
-                audio : 'sounds/narrar_mi_cuento.wav'
-            },
-            {
-                name : 'llamar_madre_padre',
-                text : 'Llamar a mi padre o a mi madre',
-                id   : '042cdc4aa34880',
-                img  : 'img/IMG_0465.JPG',
-                audio : 'sounds/llamar_padre.wav'
-            },
-            {
-                name : 'quiero_comer',
-                text : 'Quiero comer',
-                id   : '042adc4aa34880',
-                img  : 'img/IMG_0464.JPG',
-                audio : 'sounds/quiero_comer.wav'
-            }
-        ]
-
-        $ionicPlatform.ready(function() {
-            nfc.addNdefListener(function (nfcEvent) {
-                //console.log(JSON.stringify(nfcEvent.tag, null, 4));
-                $scope.$apply(function(){
-                    //angular.copy(nfcEvent.tag, tag);
-                    var tag = nfcEvent.tag;
-                    tag.id = $filter('bytesToHexString')(tag.id);
-                    //console.log(tag.id);
-                    $scope.tag = tag;
-
-                    angular.forEach($scope.pictograms, function (pictogram) {
-                        if (tag.id == pictogram.id) {
-                            $scope.selectedPicto = pictogram;
-                            $scope.play(pictogram.audio);
-                        }
-                    });
-                });
-            }, function () {
-                console.log("Listening for NDEF Tags.");
-            }, function (reason) {
-                alert("Error adding NFC Listener " + reason);
-            });
-        });
+        console.log($stateParams.id);
+        console.log($scope.pictogram);
 
         $scope.play = function (audio) {
             var src = '/android_asset/www/' + audio;
@@ -108,18 +75,10 @@ angular.module('starter.controllers', ['nfcFilters'])
         };
 
         $scope.replay = function () {
-            $scope.play($scope.selectedPicto.audio);
+            $scope.play($scope.pictogram.audio);
         };
 
-        $scope.scanBarcode = function() {
-            $cordovaBarcodeScanner.scan().then(function(imageData) {
-                alert(imageData.text);
-            }, function(error) {
-                alert(error);
-                console.log("An error happened -> " + error);
-            });
-        };        
-
+        $scope.play($scope.pictogram.audio);
     })
 
     .controller('RecordAudio', function($scope, $cordovaMedia) {
@@ -159,5 +118,12 @@ angular.module('starter.controllers', ['nfcFilters'])
             });
             //alert(JSON.stringify(mediaRec));
             mediaRec.play();
+        };
+    })
+    .controller('Browse', function ($scope, $state, Pictogram) {
+        $scope.pictograms = Pictogram.list();
+
+        $scope.show = function (id) {
+            $state.go('app.pictogram', {id : id})
         };
     });
