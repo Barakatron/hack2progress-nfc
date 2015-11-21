@@ -81,10 +81,6 @@ angular.module('starter.controllers', ['nfcFilters'])
     }
   ]
 
-  //$scope.tag = {id : '042bdc4aa34880'};
-
-  /*$scope.tag = nfcService.tag;*/
-
   $ionicPlatform.ready(function() {
       nfc.addNdefListener(function (nfcEvent) {
           //console.log(JSON.stringify(nfcEvent.tag, null, 4));
