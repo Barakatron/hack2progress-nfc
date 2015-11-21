@@ -1,0 +1,36 @@
+<ion-view view-title="TLOCUENTO">
+    <ion-content>
+        <H1>LEARNING MODE</H1>
+        <!-- Se muestra cuando no hay nada escaneado -->
+        <div class="card" ng-if="!tag.id">
+            <div class="item item-divider">
+                <h1>Escanea un pictograma</h1>
+            </div>
+
+            <div class="item item-image">
+                <img src="img/escanear-color.svg">
+            </div>
+        </div>
+        <div class="card" ng-if="!tag.id">
+            <div class="item item-divider">
+                <button class="button button-block button-positive" ng-click="scanBarcode()">ESCANEA UN CODIGO QR</button>
+            </div>
+        </div>
+        <!-- Mostrar pictograma escanedo -->
+        <div class="list card" ng-if="tag.id"  
+            ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
+                <div class="item">
+                    <h1>{{pictogram.text}}</h1>
+                </div>
+
+                <div class="item item-image">
+                    <img ng-src="{{pictogram.img}}">
+                </div>
+
+            <button class="item item-icon-left balanced" ng-click="replay()">
+                <i class="icon ion-music-note"></i>
+                Otra vez
+            </button>
+        </div>
+  </ion-content>
+</ion-view>
