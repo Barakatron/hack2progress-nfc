@@ -2,31 +2,35 @@
     <ion-content>
         <!-- Se muestra cuando no hay nada escaneado -->
         <div class="card" ng-if="!tag.id">
-            <div class="item item-divider">
-                <h1>Escanea un dibujo</h1>
+            <div class="item item-divider item-icon-left">
+                <h1 style="font-size:1.6em"><i class="icon ion-image"></i> Escanea un dibujo<br/><small>(Siempre activa)</small></h1>
             </div>
 
             <div class="item item-image">
-                <img src="img/escanear-color.svg">
+                <img style="width:77%" src="img/escanear-color.svg">
             </div>
         </div>
 
-        <div class="card">
-            <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="scanQR()">
+        <div class="card" ng-click="scanQR()">
+            <div class="item item-divider item-icon-left">
+                <h1 style="font-size:1.6em"><i class="icon ion-qr-scanner"></i>Escanea un código QR</h1>
+                <!--<button class="button button-block button-positive" ng-click="scanQR()">
                     <i class="icon ion-qr-scanner"></i>
                     Escanea un código QR
-                </button>
+                </button>-->
             </div>
+            <div class="item item-image">
+                <img style="width:77%" src="img/escanear-qr.svg">
+            </div>            
         </div>
 
-        <div class="card">
-            <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="photo()">
-                    <i class="icon ion-camera"></i>
-                    Saca una foto
-                </button>
+        <div class="card padding-top" ng-click="photo()">
+            <div class="item item-divider item-icon-left">
+                <h1 style="font-size:1.6em"><i class="icon ion-camera"></i>Saca una foto</h1>
             </div>
+            <div class="item item-image">
+                <img style="width:77%" src="img/escanear-OCR.svg">
+            </div> 
         </div>
   </ion-content>
 </ion-view>

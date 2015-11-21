@@ -89,6 +89,12 @@ angular.module('starter.controllers', ['nfcFilters'])
               // TODO check response errors
               var response = angular.fromJson(data.response);
               console.log(response);
+
+              if (!response.frames[0].results) {
+                $ionicLoading.hide();
+                return;
+              }
+
               var text = "";
               angular.forEach(response.frames[0].results, function (result) {
                 text += ' ' + result.text;
