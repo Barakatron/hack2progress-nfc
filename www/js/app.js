@@ -49,7 +49,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
-<<<<<<< HEAD
         .state('app.browse', {
             url: '/browse',
             views: {
@@ -60,6 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
         })
 
+        
         .state('app.pictogram', {
             url: '/pictogram/:id',
             views: {
@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             }
         })
-=======
+        
         .state('app.learning', {
             url: '/learning',
             views: {
@@ -79,7 +79,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             }
         })  
->>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
 
         .state('app.record-audio', {
             url: '/record-audio',

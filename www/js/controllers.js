@@ -1,10 +1,6 @@
 angular.module('starter.controllers', ['nfcFilters'])
 
-<<<<<<< HEAD
-    .controller('AppCtrl', function($scope, $ionicModal, $timeout, $cordovaBarcodeScanner) {
-=======
-    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout) {
->>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
+    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout, $cordovaBarcodeScanner) {
 
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
@@ -83,18 +79,7 @@ angular.module('starter.controllers', ['nfcFilters'])
             $scope.play($scope.pictogram.audio);
         };
 
-<<<<<<< HEAD
         $scope.play($scope.pictogram.audio);
-=======
-        $scope.scanBarcode = function() {
-            $cordovaBarcodeScanner.scan().then(function(imageData) {
-                alert(imageData.text);
-            }, function(error) {
-                console.log("An error happened -> " + error);
-            });
-        };        
-
->>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
     })
 
     .controller('RecordAudio', function($scope, $cordovaMedia) {
@@ -136,16 +121,12 @@ angular.module('starter.controllers', ['nfcFilters'])
             mediaRec.play();
         };
     })
-<<<<<<< HEAD
     .controller('Browse', function ($scope, $state, Pictogram) {
         $scope.pictograms = Pictogram.list();
 
         $scope.show = function (id) {
             $state.go('app.pictogram', {id : id})
         };
-=======
-
+    })
     .controller('Learning', function($scope, $cordovaMedia) {
-
->>>>>>> 94b29bdf7df6684516f7e616f6909b773e501ec8
     });
