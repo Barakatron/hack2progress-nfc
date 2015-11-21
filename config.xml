@@ -41,4 +41,5 @@
     </platform>
     <plugin name="cordova-plugin-media" spec="~1.0.1" />
     <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git" />
+    <plugin name="cordova-plugin-camera" spec="~1.2.0" />
 </widget>

@@ -128,5 +128,60 @@ angular.module('starter.controllers', ['nfcFilters'])
             $state.go('app.pictogram', {id : id})
         };
     })
-    .controller('Learning', function($scope, $cordovaMedia) {
+    .controller('Learning', function($rootScope, $scope, $cordovaMedia, $ionicPopup, $cordovaCamera) {
+        $rootScope.learning = true;
+
+        $scope.currentStep = 1;        
+
+        $scope.goto = function (paso) {
+            $scope.currentStep = paso;
+        }
+
+        nfc.addNdefListener(function (nfcEvent) {
+            if ($scope.currentStep == 2) {
+                console.log('va');
+                $scope.showConfirm();
+            }
+            //console.log(JSON.stringify(nfcEvent.tag, null, 4));
+            /*var tag = nfcEvent.tag;
+            tag.id = $filter('bytesToHexString')(tag.id);
+            //console.log(tag.id);
+            $ionicHistory.nextViewOptions({
+              disableBack : true
+            });
+
+            $state.go('app.pictogram', {id : tag.id});*/
+        }, function () {
+            console.log("Listening for NDEF Tags.");
+        }, function (reason) {
+            alert("Error adding NFC Listener " + reason);
+        });
+
+        // A confirm dialog
+        $scope.showConfirm = function() {
+           var confirmPopup = $ionicPopup.confirm({
+             title    : 'Muy bien!',
+             template : 'El pictograma se ha escaneado correctamente'
+           });
+           confirmPopup.then(function(res) {
+             $scope.goto(3);
+           });
+        };
+
+        $scope.photo = function () {
+            var options = {
+              destinationType : Camera.DestinationType.FILE_URI,
+              sourceType      : Camera.PictureSourceType.CAMERA,
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageURI) {
+              console.log((imageURI);
+            }, function(err) {
+              // error
+            });
+        };
+
+        $scope.$on("$destroy", function() {
+            $rootScope.learning = false;
+        });
     });

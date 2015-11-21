@@ -1,23 +1,46 @@
-<ion-view view-title="TLOCUENTO">
+<ion-view view-title="Modo Aprendizaje">
     <ion-content>
-        <H1>LEARNING MODE</H1>
-        <!-- Se muestra cuando no hay nada escaneado -->
-        <div class="card" ng-if="!tag.id">
+        <!-- Primer paso: Colocar el NFC -->
+        <div class="card" ng-if="currentStep == 1">
+            <div class="item item-wrap">
+                <h1>Pega el NFC debajo el pictograma</h1>
+            </div>
+
+            <div class="item item-image">
+                <img src="img/escanear-color.svg">
+            </div>
             <div class="item item-divider">
-                <h1>Escanea un pictograma</h1>
+                <button class="button button-block button-positive" ng-click="goto(2)">Ya está</button>
+            </div>
+        </div>
+
+        <!--Paso dos: Acerca el movil al pictograma -->
+        <div class="card" ng-if="currentStep == 2">
+            <div class="item item-divider">
+                <h1>Acerca el móvil al pictograma</h1>
             </div>
 
             <div class="item item-image">
                 <img src="img/escanear-color.svg">
             </div>
         </div>
-        <div class="card" ng-if="!tag.id">
+
+        <!-- Paso 3: fotografía el pictograma -->
+        <div class="list card">
             <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="scanBarcode()">ESCANEA UN CODIGO QR</button>
+                <button class="button button-block button-positive" ng-click="photo()">Sácale una foto</button>
             </div>
         </div>
+
+        <!-- Paso 4: graba un sonido -->
+        <div class="list card">
+            <div class="item item-divider">
+                <button class="button button-block button-positive" ng-click="record()">Grábate</button>
+            </div>
+        </div>
+
         <!-- Mostrar pictograma escanedo -->
-        <div class="list card" ng-if="tag.id"  
+        <!--<div class="list card" ng-if="tag.id"  
             ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
                 <div class="item">
                     <h1>{{pictogram.text}}</h1>
@@ -31,6 +54,6 @@
                 <i class="icon ion-music-note"></i>
                 Otra vez
             </button>
-        </div>
+        </div>-->
   </ion-content>
 </ion-view>

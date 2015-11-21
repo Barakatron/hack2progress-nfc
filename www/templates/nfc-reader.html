@@ -10,25 +10,10 @@
                 <img src="img/escanear-color.svg">
             </div>
         </div>
-        <!-- Mostrar pictograma escanedo -->
-        <div class="list card" ng-if="tag.id"  
-            ng-repeat="pictogram in pictograms | filter:{id : tag.id}">
-                <div class="item">
-                    <h1>{{pictogram.text}}</h1>
-                </div>
-
-                <div class="item item-image">
-                    <img ng-src="{{pictogram.img}}">
-                </div>
-
-            <button class="item item-icon-left balanced" ng-click="replay()">
-                <i class="icon ion-music-note"></i>
-                Otra vez
-            </button>
-        </div>
+        
         <div class="card">
             <div class="item item-divider">
-                <button class="button button-block button-positive" ng-click="scanBarcode()">
+                <button class="button button-block button-positive" ng-click="scanQR()">
                     <i class="icon ion-qr-scanner"></i>
                     ESCANEA UN CÓDIGO QR
                 </button>

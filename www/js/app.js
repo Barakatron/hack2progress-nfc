@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-    .run(function($ionicPlatform, $filter, $state, $ionicHistory) {
+    .run(function($rootScope, $ionicPlatform, $filter, $state, $ionicHistory) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -14,6 +14,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }
 
             nfc.addNdefListener(function (nfcEvent) {
+                if ($rootScope.learning) {
+                    return;
+                }
+
                 //console.log(JSON.stringify(nfcEvent.tag, null, 4));
                 var tag = nfcEvent.tag;
                 tag.id = $filter('bytesToHexString')(tag.id);
