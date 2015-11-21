@@ -99,6 +99,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     controller: 'Learning'
                 }
             }
+        })
+
+        .state('app.modifyPicto', {
+            url: '/learning/:id',
+            views: {
+                'menuContent': {
+                templateUrl: 'templates/learning.html',
+                    controller: 'Learning'
+                }
+            }
         })  
 
         .state('app.record-audio', {

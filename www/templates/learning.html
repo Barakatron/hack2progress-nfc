@@ -27,10 +27,17 @@
 
         <!-- Paso 3: fotografía el pictograma -->
         <div class="list card"  ng-if="currentStep == 3">
+            <div class="item item-image">
+                <img ng-src="{{newPictogram.img}}">
+            </div>
+
             <div class="item item-divider">
                 <button class="button button-block button-positive" ng-click="photo()">
                     <i class="icon ion-camera"></i>
                     Sácale una foto
+                </button>
+                <button class="button button-block button-positive" ng-click="goto(4)">
+                    Saltar paso
                 </button>
             </div>
         </div>

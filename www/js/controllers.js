@@ -1,13 +1,6 @@
 angular.module('starter.controllers', ['nfcFilters'])
 
-    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout, $cordovaBarcodeScanner, $http, $cordovaFileTransfer, $cordovaCamera) {
-
-        // With the new view caching in Ionic, Controllers are only called
-        // when they are recreated or on app start, instead of every page change.
-        // To listen for when this page is active (for example, to refresh data),
-        // listen for the $ionicView.enter event:
-        //$scope.$on('$ionicView.enter', function(e) {
-        //});
+    .controller('AppCtrl', function($scope, $state, $ionicHistory, $ionicModal, $timeout, $cordovaBarcodeScanner, $http, $cordovaFileTransfer, $cordovaCamera, $ionicLoading, Pictogram) {
 
         // Form data for the login modal
         $scope.loginData = {};
@@ -73,6 +66,10 @@ angular.module('starter.controllers', ['nfcFilters'])
           $cordovaCamera.getPicture(options)
           // Alanyse photo
           .then(function(imageData) {
+            $ionicLoading.show({
+              template : '<ion-spinner></ion-spinner> Uploading photo...'
+            });
+
             var options = {
               fileKey     : 'file',
               httpMethod  : 'POST',
@@ -92,16 +89,20 @@ angular.module('starter.controllers', ['nfcFilters'])
               // TODO check response errors
               var response = angular.fromJson(data.response);
               console.log(response);
-              var text = response.frames[0].results[0].text;
-               TTS
-                .speak({
-                    text: text,
-                    locale: 'es-ES'
-                }, function () {
-                    console.log('success');
-                }, function (reason) {
-                    console.log(reason);
-                });
+              var text = "";
+              angular.forEach(response.frames[0].results, function (result) {
+                text += ' ' + result.text;
+              });
+              
+              var id   = Math.floor(Date.now() / 1000);
+              var pictogram = {
+                text : text,
+                id   : id,
+                img : imageData
+              }
+              Pictogram.add(pictogram);
+              $state.go('app.pictogram', {id : pictogram.id});
+              $ionicLoading.hide();
             });
           })
           .catch(function (err) {
@@ -200,11 +201,15 @@ angular.module('starter.controllers', ['nfcFilters'])
             $state.go('app.pictogram', {id : id})
         };
     })
-    .controller('Learning', function($rootScope, $scope, $state, $cordovaMedia, $ionicPopup, $cordovaCamera, $filter, Pictogram) {
+    .controller('Learning', function($rootScope, $scope, $state,$stateParams, $cordovaMedia, $ionicPopup, $cordovaCamera, $filter, Pictogram) {
         $rootScope.learning = true;
 
         $scope.currentStep = 1;
-        $scope.newPictogram = {}
+        if (!$stateParams.id) {
+            $scope.newPictogram = {}
+        } else {
+            $scope.newPictogram = Pictogram.find($stateParams.id);
+        }
 
         $scope.goto = function (paso) {
             $scope.currentStep = paso;

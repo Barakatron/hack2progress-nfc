@@ -23,12 +23,12 @@ angular.module('starter.services', [])
         {
             text : 'Bomba',
             id   : '11',
-            img  : 'img/IMG_0464.JPG'
+            img  : 'img/bomba.png'
         },
         {
             text : 'Balón',
             id   : '3',
-            img  : 'img/IMG_0464.JPG'
+            img  : 'img/balon.png'
         }
     ];
 

@@ -1,14 +1,14 @@
 <ion-side-menus enable-menu-with-back-views="false">
     <ion-side-menu-content>
         <ion-nav-bar class="bar-stable bar-energized">
-            <ion-nav-back-button>
+            <ion-nav-back-button title="Volver">
             </ion-nav-back-button>
 
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left" title="menu"></button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-qr-scanner" ng-click="scanQR()"></button>
+                <button class="button button-icon button-clear ion-qr-scanner" ng-click="scanQR()" title="Escanea un código QR"></button>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
@@ -23,8 +23,8 @@
                 <ion-item menu-close href="#/app/nfc-reader">Inicio</ion-item>
                 <ion-item menu-close href="#/app/browse">Galería</ion-item>
                 <ion-item menu-close ng-click="login()">Modo aprendizaje</ion-item>
-                <ion-item menu-close href="#/app/record-audio">TEMPORAL Record audio</ion-item>
-                <ion-item menu-close href="#/app/qr-scanner">TEMPORAL QR Scanner</ion-item> 
+                <!--<ion-item menu-close href="#/app/record-audio">TEMPORAL Record audio</ion-item>
+                <ion-item menu-close href="#/app/qr-scanner">TEMPORAL QR Scanner</ion-item>-->
             </ion-list>
         </ion-content>
     </ion-side-menu>
