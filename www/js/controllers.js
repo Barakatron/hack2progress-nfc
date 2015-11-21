@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['nfcFilters'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -53,4 +53,41 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('NFCController', function ($scope, nfcService) {
+
+    $scope.tag = nfcService.tag;
+    $scope.clear = function() {
+        nfcService.clearTag();
+    };
+
+})
+
+.factory('nfcService', function ($rootScope, $ionicPlatform) {
+
+    var tag = {};
+
+    $ionicPlatform.ready(function() {
+        nfc.addNdefListener(function (nfcEvent) {
+            console.log(JSON.stringify(nfcEvent.tag, null, 4));
+            $rootScope.$apply(function(){
+                angular.copy(nfcEvent.tag, tag);
+                // if necessary $state.go('some-route')
+            });
+        }, function () {
+            console.log("Listening for NDEF Tags.");
+        }, function (reason) {
+            alert("Error adding NFC Listener " + reason);
+        });
+
+    });
+
+    return {
+        tag: tag,
+
+        clearTag: function () {
+            angular.copy({}, this.tag);
+        }
+    };
 });

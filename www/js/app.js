@@ -59,6 +59,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
 
+  .state('app.nfc-reader', {
+    url: '/nfc-reader',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/nfc-reader.html',
+        controller: 'NFCController'
+      }
+    }
+  })
+
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {

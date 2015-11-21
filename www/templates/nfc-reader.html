@@ -1,0 +1,21 @@
+<ion-view view-title="NFC Reader">
+  <ion-content>
+  <div ng-if="!tag.id">
+            <div class="card">
+                <div class="item item-text-wrap center">
+                    Scan a tag to being.
+                </div>
+            </div>
+        </div>
+        <div ng-if="tag.id">
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <dl>
+                        <dt>Tag Id</dt>
+                        <dd>{{ tag.id | bytesToHexString }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+  </ion-content>
+</ion-view>
