@@ -55,35 +55,79 @@ angular.module('starter.controllers', ['nfcFilters'])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('NFCController', function ($scope) {
+.controller('NFCController', function ($scope, $ionicPlatform, $filter) {
 
   $scope.pictograms = [
     {
       name : 'narrar_mi_cuento',
       text : 'Narrar mi cuento',
       id   : '042bdc4aa34880',
-      img  : 'img/IMG_0466.JPG'
+      img  : 'img/IMG_0466.JPG',
+      audio : 'sounds/narrar_mi_cuento.wav'
     },
     {
       name : 'llamar_madre_padre',
       text : 'Llamar a mi padre o a mi madre',
       id   : '042cdc4aa34880',
-      img  : 'img/IMG_0465.JPG'
+      img  : 'img/IMG_0465.JPG',
+      audio : 'sounds/llamar_padre.wav'
     },
     {
       name : 'quiero_comer',
       text : 'Quiero comer',
       id   : '042adc4aa34880',
-      img  : 'img/IMG_0464.JPG'
+      img  : 'img/IMG_0464.JPG',
+      audio : 'sounds/quiero_comer.wav'
     }
   ]
 
-  $scope.tag = {id : '042bdc4aa34880'};
+  //$scope.tag = {id : '042bdc4aa34880'};
 
-  /*$scope.tag = nfcService.tag;
-  $scope.clear = function() {
-    nfcService.clearTag();
-  };*/
+  /*$scope.tag = nfcService.tag;*/
+
+  $ionicPlatform.ready(function() {
+      nfc.addNdefListener(function (nfcEvent) {
+          //console.log(JSON.stringify(nfcEvent.tag, null, 4));
+          $scope.$apply(function(){
+              //angular.copy(nfcEvent.tag, tag);
+              var tag = nfcEvent.tag;
+              tag.id = $filter('bytesToHexString')(tag.id);
+              //console.log(tag.id);
+              $scope.tag = tag;
+
+              angular.forEach($scope.pictograms, function (pictogram) {
+                if (tag.id == pictogram.id) {
+                  $scope.selectedPicto = pictogram;
+                  $scope.play(pictogram.audio);
+                }
+              });
+          });
+      }, function () {
+          console.log("Listening for NDEF Tags.");
+      }, function (reason) {
+          alert("Error adding NFC Listener " + reason);
+      });
+  });
+
+  $scope.play = function (audio) {
+    var src = '/android_asset/www/' + audio;
+    var mediaRec = new Media(src,
+      // success callback
+      function() {
+          console.log("recordAudio():Audio Success");
+      },
+      // error callback
+      function(err) {
+          //alert(JSON.stringify(err));
+          console.log("recordAudio():Audio Error: "+ err.code);
+          console.log(JSON.stringify(err, null, 4));
+    });
+    mediaRec.play();
+  };
+
+  $scope.replay = function () {
+    $scope.play($scope.selectedPicto.audio);
+  };
 
 })
 
